@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     embedding_model: str = "gemini-embedding-001"
     embedding_dim: int = 768          # MRL-truncated from the 3072 default
     embedding_batch_size: int = 100   # texts per embed request
+    # Gemini counts EACH text in a batch as one request against the per-minute quota
+    # (observed limit: 3000/min). Throttle below that with a safety margin.
+    embedding_rpm: int = 2700
 
     # --- Sparse channel ---
     sparse_model: str = "Qdrant/bm25"

@@ -1,0 +1,23 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Data & caches (large, regenerable)
+data/
+fulltext_cache/
+*.jsonl
+!eval/golden_set.jsonl
+
+# Model caches
+.cache/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

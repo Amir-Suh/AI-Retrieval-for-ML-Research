@@ -20,3 +20,5 @@ instructor>=1.4.0          # structured outputs (Pydantic) over Gemini
 
 # --- Full-text (Phase 3) ---
 requests>=2.32.0           # fetch LaTeX source / PDF from arXiv
+pylatexenc>=2.10           # LaTeX -> readable text for section bodies
+pymupdf>=1.24.0            # PDF text extraction (fallback when no LaTeX source)

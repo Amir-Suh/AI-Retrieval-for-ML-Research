@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arXiv RAG — Retrieval Visualizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>arXiv RAG · Retrieval Visualizer</h1>
+    <p class="sub">Hybrid search over ML papers — watch the ranking evolve across stages.</p>
+  </header>
+
+  <form id="search-form">
+    <input id="query" type="text" autocomplete="off"
+           placeholder="e.g. self-supervised vision transformers for dense prediction" />
+    <label class="toggle">
+      <input id="rerank" type="checkbox" checked />
+      <span>Cross-encoder rerank</span>
+    </label>
+    <button id="go" type="submit">Search</button>
+  </form>
+
+  <div id="status" class="status"></div>
+  <div id="timings" class="timings"></div>
+
+  <main id="columns" class="columns">
+    <section class="col" data-stage="dense">
+      <h2>① Vector <span class="hint">semantic (Gemini)</span></h2>
+      <div class="list" id="list-dense"></div>
+    </section>
+    <section class="col" data-stage="sparse">
+      <h2>② Keyword <span class="hint">BM25</span></h2>
+      <div class="list" id="list-sparse"></div>
+    </section>
+    <section class="col" data-stage="fused">
+      <h2>③ RRF Fused <span class="hint">reciprocal rank fusion</span></h2>
+      <div class="list" id="list-fused"></div>
+    </section>
+    <section class="col highlight" data-stage="reranked">
+      <h2>④ Reranked <span class="hint">top-5, cross-encoder</span></h2>
+      <div class="list" id="list-reranked"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

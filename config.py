@@ -41,7 +41,11 @@ class Settings(BaseSettings):
     sparse_model: str = "Qdrant/bm25"
 
     # --- Reranker (Phase 2) ---
-    reranker_model: str = "BAAI/bge-reranker-v2-m3"
+    # ms-marco-MiniLM-L-6-v2 (~22M params) is fast on CPU (~1-2s for 50 candidates).
+    # bge-reranker-v2-m3 is more accurate but ~568M params -> ~5s/candidate on CPU,
+    # unusable interactively. Swap back here if running on GPU.
+    reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    reranker_max_length: int = 512  # truncate (query, title+abstract) pairs
 
     # --- Generation (Phase 4) ---
     map_model: str = "gemini-3-flash"   # per-paper structured extraction

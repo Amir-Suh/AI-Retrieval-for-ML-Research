@@ -12,6 +12,8 @@ tqdm>=4.66.0               # progress bars for batched embedding
 
 # --- Retrieval (Phase 2) ---
 sentence-transformers>=3.0.0   # bge-reranker-v2-m3 cross-encoder (local)
+fastapi>=0.110.0               # dev API server for the retrieval visualizer UI
+uvicorn>=0.29.0                # ASGI server to run FastAPI
 
 # --- Synthesis (Phase 4) ---
 instructor>=1.4.0          # structured outputs (Pydantic) over Gemini

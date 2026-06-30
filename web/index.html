@@ -25,6 +25,11 @@
   <div id="status" class="status"></div>
   <div id="timings" class="timings"></div>
 
+  <div id="synth-bar" class="synth-bar" hidden>
+    <button id="summarize" type="button">📝 Summarize top-5 papers</button>
+    <span id="synth-status" class="synth-status"></span>
+  </div>
+
   <main id="columns" class="columns">
     <section class="col" data-stage="dense">
       <h2>① Vector <span class="hint">semantic (Gemini)</span></h2>
@@ -43,6 +48,8 @@
       <div class="list" id="list-reranked"></div>
     </section>
   </main>
+
+  <section id="synthesis" class="synthesis"></section>
 
   <script src="app.js"></script>
 </body>

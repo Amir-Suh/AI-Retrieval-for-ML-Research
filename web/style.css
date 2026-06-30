@@ -116,4 +116,26 @@ button#go:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .empty { color: var(--muted); font-size: 13px; font-style: italic; }
 .skeleton { height: 64px; background: var(--panel-2); border-radius: 8px; margin-bottom: 8px; animation: pulse 1.2s infinite; }
+.skeleton.tall { height: 140px; }
 @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 0.85; } }
+
+/* --- Phase 4: synthesis --- */
+.synth-bar { display: flex; align-items: center; gap: 12px; margin: 4px 0 18px; }
+.synth-bar button {
+  padding: 9px 16px; background: #238636; color: #fff; border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.synth-bar button:hover { background: #2ea043; }
+.synth-bar button:disabled { opacity: 0.5; cursor: not-allowed; }
+.synth-status { color: var(--muted); font-size: 13px; }
+
+.synthesis { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 14px; margin-top: 8px; }
+.paper { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.paper-head { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
+.paper-head a { color: var(--text); font-size: 15px; font-weight: 600; text-decoration: none; }
+.paper-head a:hover { color: var(--accent); }
+.paper-head .src { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.secs { display: flex; flex-direction: column; gap: 10px; }
+.sec { border-left: 2px solid var(--highlight); padding-left: 10px; }
+.sec-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 3px; }
+.sec-text { font-size: 13px; line-height: 1.5; color: var(--text); }

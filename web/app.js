@@ -14,6 +14,13 @@ const LISTS = {
   reranked: document.getElementById("list-reranked"),
 };
 
+const synthBar = document.getElementById("synth-bar");
+const summarizeBtn = document.getElementById("summarize");
+const synthStatus = document.getElementById("synth-status");
+const synthOut = document.getElementById("synthesis");
+
+let lastReranked = []; // papers available to summarize
+
 function escapeHtml(s) {
   return (s || "").replace(/[&<>"']/g, (c) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
@@ -98,6 +105,14 @@ async function runSearch(query, rerank) {
     renderList(LISTS.reranked, data.stages.reranked, { showMove: true });
     renderTimings(data.timings_ms, data.config);
 
+    // Make the reranked top-5 available for summarization.
+    lastReranked = (data.stages.reranked || []).map((h) => ({
+      arxiv_id: h.arxiv_id, title: h.title, abstract: h.abstract,
+    }));
+    synthOut.innerHTML = "";
+    synthStatus.textContent = "";
+    synthBar.hidden = lastReranked.length === 0;
+
     statusEl.textContent = `Done — “${data.query}”${rerank ? "" : " (reranking off)"}`;
   } catch (err) {
     statusEl.className = "status error";
@@ -113,3 +128,49 @@ form.addEventListener("submit", (e) => {
   const q = queryInput.value.trim();
   if (q) runSearch(q, rerankInput.checked);
 });
+
+// ---- Phase 4: per-section summaries ----
+
+function paperBlockHtml(p) {
+  const blocks = (p.section_summaries || []).map((s) => `
+    <div class="sec">
+      <div class="sec-name">${escapeHtml(s.section)}</div>
+      <div class="sec-text">${escapeHtml(s.summary)}</div>
+    </div>`).join("");
+  const body = blocks || `<div class="empty">No summary (${escapeHtml(p.note || "n/a")}).</div>`;
+  return `
+    <article class="paper">
+      <div class="paper-head">
+        <a href="${arxivUrl(p.arxiv_id)}" target="_blank" rel="noopener">${escapeHtml(p.title || p.arxiv_id)}</a>
+        <span class="src">${escapeHtml(p.source_type || "")} · ${escapeHtml(p.arxiv_id)}</span>
+      </div>
+      <div class="secs">${body}</div>
+    </article>`;
+}
+
+async function runSummarize() {
+  if (lastReranked.length === 0) return;
+  summarizeBtn.disabled = true;
+  synthStatus.textContent = "Fetching full text + summarizing sections… (first run downloads papers)";
+  synthOut.innerHTML = Array.from({ length: lastReranked.length })
+    .map(() => `<div class="skeleton tall"></div>`).join("");
+
+  try {
+    const res = await fetch("/api/summarize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ papers: lastReranked }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+    const data = await res.json();
+    synthOut.innerHTML = data.papers.map(paperBlockHtml).join("");
+    synthStatus.textContent = `Summarized ${data.papers.length} papers.`;
+  } catch (err) {
+    synthStatus.textContent = "Error: " + err.message;
+    synthOut.innerHTML = "";
+  } finally {
+    summarizeBtn.disabled = false;
+  }
+}
+
+summarizeBtn.addEventListener("click", runSummarize);

@@ -48,8 +48,11 @@ class Settings(BaseSettings):
     reranker_max_length: int = 512  # truncate (query, title+abstract) pairs
 
     # --- Generation (Phase 4) ---
-    map_model: str = "gemini-3-flash"   # per-paper structured extraction
-    reduce_model: str = "gemini-3-pro"  # final literature-review synthesis
+    # NOTE: gemini-3-* does not exist on the API (404); 2.5 is current.
+    map_model: str = "gemini-2.5-flash"   # per-section summarization (high volume)
+    reduce_model: str = "gemini-2.5-pro"  # reserved for Phase 5 synthesis
+    summary_max_section_chars: int = 6000  # truncate long sections before summarizing
+    summary_workers: int = 4               # concurrent papers in the Map stage
 
     # --- Retrieval constants ---
     fusion_candidates: int = 100   # top-N pulled from EACH channel before RRF

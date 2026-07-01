@@ -25,8 +25,19 @@
   <div id="status" class="status"></div>
   <div id="timings" class="timings"></div>
 
+  <details id="manual" class="manual">
+    <summary>Load papers by ID (test summaries/graph without a search)</summary>
+    <div class="manual-row">
+      <input id="manual-ids" type="text"
+             value="2602.20573, 2603.02810, 2604.06336, 2605.10551"
+             placeholder="comma-separated arXiv ids" />
+      <button id="manual-load" type="button">Load</button>
+    </div>
+  </details>
+
   <div id="synth-bar" class="synth-bar" hidden>
     <button id="summarize" type="button">📝 Summarize top-5 papers</button>
+    <button id="build-graph" type="button">🕸 Build knowledge graph</button>
     <span id="synth-status" class="synth-status"></span>
   </div>
 
@@ -51,6 +62,30 @@
 
   <section id="synthesis" class="synthesis"></section>
 
+  <section id="graph-panel" class="graph-panel" hidden>
+    <div class="graph-toolbar">
+      <span class="graph-title">🕸 Cross-paper knowledge graph</span>
+      <span id="graph-legend" class="graph-legend"></span>
+      <label class="toggle">
+        <input id="shared-only" type="checkbox" />
+        <span>Shared entities only</span>
+      </label>
+      <span id="graph-detail" class="graph-detail"></span>
+    </div>
+
+    <div class="graph-qa">
+      <div class="qa-row">
+        <input id="qa-input" type="text" autocomplete="off"
+               placeholder="Ask about these papers — e.g. which paper has the best RMSE on MoleculeNet?" />
+        <button id="qa-ask" type="button">Ask</button>
+      </div>
+      <div id="qa-answer" class="qa-answer"></div>
+    </div>
+
+    <div id="cy"></div>
+  </section>
+
+  <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -17,6 +17,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from src.retrieval.pipeline import search
+from src.synthesis.build_graph import build_graph
+from src.synthesis.graph_qa import answer_question
 from src.synthesis.summarize import summarize_papers
 
 app = FastAPI(title="arXiv RAG — Retrieval Visualizer")
@@ -40,6 +42,12 @@ class SummarizeRequest(BaseModel):
     refresh: bool = False
 
 
+class QaRequest(BaseModel):
+    question: str
+    papers: list[PaperRef]
+    refresh: bool = False
+
+
 @app.post("/api/search")
 def api_search(req: SearchRequest) -> dict:
     return search(req.query, use_rerank=req.rerank)
@@ -49,6 +57,18 @@ def api_search(req: SearchRequest) -> dict:
 def api_summarize(req: SummarizeRequest) -> dict:
     hits = [p.model_dump() for p in req.papers]
     return {"papers": summarize_papers(hits, refresh=req.refresh)}
+
+
+@app.post("/api/graph")
+def api_graph(req: SummarizeRequest) -> dict:
+    hits = [p.model_dump() for p in req.papers]
+    return build_graph(hits, refresh=req.refresh)
+
+
+@app.post("/api/graph_qa")
+def api_graph_qa(req: QaRequest) -> dict:
+    hits = [p.model_dump() for p in req.papers]
+    return answer_question(req.question, hits, refresh=req.refresh)
 
 
 @app.get("/api/health")

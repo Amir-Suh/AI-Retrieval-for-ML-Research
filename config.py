@@ -54,6 +54,13 @@ class Settings(BaseSettings):
     summary_max_section_chars: int = 6000  # truncate long sections before summarizing
     summary_workers: int = 4               # concurrent papers in the Map stage
 
+    # --- Knowledge graph (Phase 5) ---
+    graph_max_section_chars: int = 5000    # truncate each section before entity extraction
+    graph_workers: int = 4                 # concurrent papers in the extraction stage
+    # Graph-grounded Q&A: single synthesis call over graph facts + summaries. Flash keeps
+    # the answer box responsive; bump to gemini-2.5-pro for harder multi-paper reasoning.
+    qa_model: str = "gemini-2.5-flash"
+
     # --- Retrieval constants ---
     fusion_candidates: int = 100   # top-N pulled from EACH channel before RRF
     rerank_candidates: int = 50    # fused candidates fed to the cross-encoder

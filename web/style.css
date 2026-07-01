@@ -139,3 +139,59 @@ button#go:disabled { opacity: 0.5; cursor: not-allowed; }
 .sec { border-left: 2px solid var(--highlight); padding-left: 10px; }
 .sec-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 3px; }
 .sec-text { font-size: 13px; line-height: 1.5; color: var(--text); }
+
+/* --- Load-by-id (test without search) --- */
+.manual { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
+.manual summary { cursor: pointer; user-select: none; }
+.manual summary:hover { color: var(--text); }
+.manual-row { display: flex; gap: 10px; margin-top: 10px; }
+.manual-row input {
+  flex: 1 1 420px; padding: 9px 12px; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px;
+}
+.manual-row input:focus { outline: none; border-color: var(--accent); }
+.manual-row button {
+  padding: 9px 18px; background: var(--panel-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; font-size: 14px; cursor: pointer;
+}
+.manual-row button:hover { border-color: var(--accent); }
+
+/* --- Phase 5: knowledge graph --- */
+.synth-bar button#build-graph { background: #6e40c9; }
+.synth-bar button#build-graph:hover { background: #8957e5; }
+
+.graph-panel { margin-top: 18px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.graph-toolbar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+.graph-title { font-size: 14px; font-weight: 600; }
+.graph-legend { display: flex; gap: 12px; flex-wrap: wrap; }
+.graph-legend .lg { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); text-transform: capitalize; }
+.graph-legend .lg i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.graph-detail { font-size: 12px; color: var(--text); margin-left: auto; font-variant-numeric: tabular-nums; }
+#cy { width: 100%; height: 540px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; }
+
+/* graph-grounded Q&A */
+.graph-qa { margin: 0 0 12px; }
+.qa-row { display: flex; gap: 10px; }
+.qa-row input {
+  flex: 1; padding: 10px 13px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 14px;
+}
+.qa-row input:focus { outline: none; border-color: var(--accent); }
+.qa-row button {
+  padding: 10px 20px; background: #6e40c9; color: #fff; border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.qa-row button:hover { background: #8957e5; }
+.qa-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+.qa-answer:not(:empty) {
+  margin-top: 10px; padding: 12px 14px; background: var(--panel-2);
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.qa-text { font-size: 14px; line-height: 1.6; color: var(--text); }
+.qa-text a { color: var(--accent); text-decoration: none; }
+.qa-text a:hover { text-decoration: underline; }
+.qa-meta { margin-top: 8px; font-size: 11px; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.qa-chip { background: #21262d; border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; font-size: 11px; color: var(--text); }
+.qa-chip.ent { color: var(--accent); }
+.qa-thinking { font-size: 13px; color: var(--muted); font-style: italic; }
+.qa-error { font-size: 13px; color: #f85149; }
